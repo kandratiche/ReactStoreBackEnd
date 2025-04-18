@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 const mongo_uri = process.env.MONGO_URI
 
 const app = express();
@@ -33,5 +34,5 @@ app.get('/items', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on https://reactstorebackend.onrender.com:${PORT}`);
 });
