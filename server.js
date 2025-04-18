@@ -52,11 +52,15 @@ app.post('/register', async (req, res) => {
   console.log(req.body);
   const {username, firstName, password, gender, email, phone} = req.body;
   if(!username || !password || !email){
+    alert('Missing required data');
     return res.status(400).json({message: 'Missing Required Data'})
   }
 
   const check = await User.findOne({username})
-  if(check) return res.status(400).json({message: 'Username is taken'}) 
+  if(check) { 
+    alert('Username already taken') 
+    return res.status(400).json({message: 'Username is taken'})
+  }
 
   const newUser = new User({username, firstName, password, gender, email, phone});
   await newUser.save();
@@ -73,9 +77,12 @@ app.post('/login', async (req,res) => {
   if(!username || !password) return res.status(400).json({message: 'Missing required data'});
   try {
     const user = await User.findOne({username});
-    if(!user) return res.status(400).json({message: 'User not found'});
+    if(!user){
+      alert('User not Found');
+      return res.status(400).json({message: 'User not found'});
+    }
     if(user.password !== password) return res.status(400).json({message: 'Password is incorrect'});
-    res.status(200).json({message: 'Login successful', user: {username: user.username, password: user.password, email: user.email}});
+    res.status(200).json({message: 'Login successful', user: {username: user.username, password: user.password, email: user.email, firstName: user.firstName, phone: user.phone, gender: user.gender}});
   } catch (error) {
     console.error('Login error: ', error);
     res.status(500).json({message: 'Internal server error'})
