@@ -38,12 +38,13 @@ const Item = mongoose.model('Item', {
 });
 
 const User = mongoose.model('User', {
-  username: String,
+  username: { type: String, unique: true, index: true},
   firstName: String,
   password: String,
   gender: String,
   email: String,
-  phone: Number
+  phone: Number,
+  balance: Number
 })
 
 const users = [];
